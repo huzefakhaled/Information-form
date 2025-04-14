@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huzaifa</title>
+</head>
+
+<body>
+
+    <div class="section">
+        <h1>Registration form</h1>
+        <form id="registrationForm">
+            <input type="text" placeholder="Enter your Name" name="Name" id="name">
+            <br>
+            <br>
+
+            <input type="email" placeholder="Enter your Email" name="Email" id="email">
+            <br>
+            <br>
+
+            <label for="Sectionida">
+                <input type="radio" value="Section A" name="Section" id="Sectionida"> Section A
+            </label>
+
+            <label for="Sectionidb">
+                <input type="radio" value="Section B" name="Section" id="Sectionidb"> Section B
+            </label>
+
+            <label for="Sectionidc">
+                <input type="radio" value="Section C" name="Section" id="Sectionidc"> Section C
+                <br>
+                <br>
+
+                <label for="Sectionidextra">
+                    <input type="checkbox" value="Yes" name="Extra class" id="Sectionidextra"> I want to take extra
+                    classes
+                </label>
+                <br>
+                <br>
+                <select name="stream" id="stream">
+
+                    <option value="Select your stream"> Select your stream</option>
+                    <option value="Pre-medical">Pre-medical</option>
+                    <option value="Pre-engineering">Pre-engineering</option>
+                    <option value="ICS">ICS</option>
+                    <option value="Arts">Arts</option>
+                </select>
+                <br>
+                <br>
+                <textarea name="Explain" id="Explain" cols="30" rows="5"
+                    placeholder="Explain why you want to join"></textarea>
+                <br>
+                <br>
+                <button type="button" onclick="
+                saveData()">Submit</button>
+        </form>
+    </div>
+
+    <script>
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXzokoKkCASoB7qMLIXRgOQOl7Pegb_ZU",
+            authDomain: "practice-form-6aaac.firebaseapp.com",
+            projectId: "practice-form-6aaac",
+            storageBucket: "practice-form-6aaac.firebasestorage.app",
+            messagingSenderId: "733167282328",
+            appId: "1:733167282328:web:5457a5688f3d79d2bb08ed",
+            measurementId: "G-8HEP3CD7JS"
+        };
+
+
+        function saveData() {
+
+            let name, a, b, c, Sectionidextra, stream, Explain, email;
+            name = document.getElementById("name").value;
+            a = document.getElementById("Sectionida");
+            b = document.getElementById("Sectionidb");
+            c = document.getElementById("Sectionidc");
+            email = document.getElementById("email").value;
+            Sectionidextra = document.getElementById("Sectionidextra");
+            stream = document.getElementById("stream").value;
+            Explain = document.getElementById("Explain").value;
+
+
+            let userRecord = new Array();
+            userRecord = JSON.parse(localStorage.getItem("users")) || [];
+
+            let section = "";
+
+            if (a.checked == true) {
+                section = 'section A'
+            }
+
+            else if (b.checked == true) {
+                section = 'section B'
+            }
+
+            else if (c.checked == true) {
+                section = 'section C'
+            }
+
+
+
+            let user = {
+                "name": name,
+                "email": email,
+                "section": section,
+                "Sectionidextra": Sectionidextra.checked ? "Yes" : "No",
+                "stream": stream,
+                "Explain": Explain,
+            };
+
+
+
+
+
+            if (userRecord.some((v) => { return v.email == email })) {
+                alert("email already taken");
+            }
+            else {
+
+                userRecord.push(user)
+
+                localStorage.setItem("users", JSON.stringify(userRecord));
+                alert("Data saved successfully!");
+            }
+            document.getElementById("registrationForm").reset();
+
+        }
+
+        // localStorage.clear()
+    </script>
+</body>
+
+</html>
